@@ -5,13 +5,18 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "nodemon index.js"
+    "dev": "nodemon index.js",
+    "start": "node index.js",
+    "say-hello": "echo 'Hello World!'"
   },
   "author": "Sujit Mahavarkar",
   "license": "ISC",
   "dependencies": {
     "express": "^4.17.1",
-    "nodemon": "^2.0.3",
+    "mongodb": "^3.5.5",
     "path": "^0.12.7"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.3"
   }
 }
