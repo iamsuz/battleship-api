@@ -6,7 +6,9 @@ app.use(express.static(__dirname + '/public'));
 
 const routes = require('./routes/routes');
 // middleware
-app.use('/battleship/v1/api', routes);
+
+//changes the route to home route
+app.use('/', routes);
 
 
 
