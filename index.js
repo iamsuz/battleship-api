@@ -1,6 +1,9 @@
 const express = require('express');
 const app = express();
 const path = require('path');
+
+app.use(express.static(__dirname + '/public'));
+
 const routes = require('./routes/routes');
 // middleware
 app.use('/battleship/v1/api', routes);
@@ -20,5 +23,4 @@ app.use('/battleship/v1/api', routes);
 
 
 
-app.use(express.static(__dirname + '/public'));
 app.listen(process.env.PORT || 3000,()=>console.log('Server up and running'));
