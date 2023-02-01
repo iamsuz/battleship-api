@@ -1,0 +1,85 @@
+.container{
+ display: flex;
+}
+
+.board-user{
+	width: 400px;
+	height: 400px;
+	display: flex;
+	margin: 20px;
+	background-color: blue;
+}
+
+.board-com{
+	width: 400px;
+	height: 400px;
+	display: flex;
+	margin: 20px;
+	background-color: yellow;
+}
+
+.board div{
+	width: 40px;
+	height: 40px;
+	background-color: red;
+}
+
+.available-ships{
+	width: 400px;
+	height: 400px;
+	margin: 20px;
+	background-color: lightgreen;
+
+}
+
+.ship-carrier{
+	width: 200px;
+	height: 40px;
+	background-color: skyblue;
+	display: flex;
+	margin: 10px;
+}
+
+.ship-battleship{
+	width: 160px;
+	height: 40px;
+	background-color: skyblue;
+	display: flex;
+	margin: 10px;
+}
+
+.ship-cruiser{
+	width: 120px;
+	height: 40px;
+	background-color: skyblue;
+	display: flex;
+	margin: 10px;
+}
+
+.ship-submarine{
+	width: 120px;
+	height: 40px;
+	background-color: skyblue;
+	display: flex;
+	margin: 10px;
+}
+
+.ship-destroyer{
+	width: 80px;
+	height: 40px;
+	background-color: skyblue;
+	display: flex;
+	margin: 10px;
+}
+
+.ship div{
+	width: 40px;
+	height: 40px;
+
+}
+
+
+
+
+
+
