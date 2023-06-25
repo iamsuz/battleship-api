@@ -51,6 +51,6 @@ describe('damageShip', function(){
 
         expect(ship.damage).to.not.be.empty;
         // expect(ship.damage)
-        // expect(ship.damage[0]).to.deep.equal([0,0])
+        expect(ship.damage[0]).to.deep.equal([0,0])
     })
 })
