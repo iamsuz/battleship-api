@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 services:
   frontend:
     build:
@@ -9,36 +9,69 @@ services:
       - backend
 
   backend:
+    restart: always
     build:
       context: ./backend
     ports:
-      - "3000:3000"
+      - 3030:3030
+      - 9229:9229
+    env_file:
+      - ./.env
     environment:
-      DATABASE_URL: postgres://user:password@db:5432/battleship
+      - NODE_ENV=development
+    command: >
+      sh -c 'if [ "$NODE_ENV" = "local" ]; then
+              nodemon --inspect=0.0.0.0:9229 ./src/bin/www;
+            elif [ "$NODE_ENV" = "development" ]; then
+              node --inspect=0.0.0.0:9229 ./src/bin/www;
+            else
+              node ./src//bin/www;
+            fi'
     depends_on:
       - db
       - hasura
 
   db:
-    image: postgres:latest
-    environment:
-      POSTGRES_USER: user
-      POSTGRES_PASSWORD: password
-      POSTGRES_DB: battleship
-    ports:
-      - "5432:5432"
+    image: postgres:12.4-alpine
+    restart: always
+    container_name: postgres-database
+    env_file:
+      - ./.env
     volumes:
-      - db_data:/var/lib/postgresql/data
+      - postgresdb:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d $${POSTGRES_DB} -U $${POSTGRES_USER}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  pgbouncer:
+    image: pgbouncer/pgbouncer:1.12.0
+    restart: always
+    ports:
+      - 6432:6432
+    env_file:
+      - ./.env
+    depends_on:
+      db:
+        condition: service_healthy
 
   hasura:
-    image: hasura/graphql-engine:latest
+    image: hasura/graphql-engine:v2.35.0
     ports:
-      - "8080:8080"
-    environment:
-      HASURA_GRAPHQL_DATABASE_URL: postgres://user:password@db:5432/battleship
-      HASURA_GRAPHQL_ENABLE_CONSOLE: "true"
+      - "${HASURA_DOCKER_EXPOSED_PORT}:8080"
+    restart: always
+    env_file:
+      - ./.env
+
     depends_on:
-      - db
+      - pgbouncer
+      - api
+    links:
+      - pgbouncer
+      - api
 
 volumes:
-  db_data:
+  postgresdb:
+  redis:
+    driver: local
