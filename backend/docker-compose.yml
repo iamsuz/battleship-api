@@ -32,7 +32,7 @@ services:
       - hasura
 
   db:
-    image: postgres:12.4-alpine
+    image: postgres:14.5-alpine
     restart: always
     container_name: postgres-database
     env_file:
