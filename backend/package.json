@@ -5,8 +5,8 @@
 	"main": "app.js",
 	"scripts": {
 		"test": "mocha",
-		"dev": "nodemon ./bin/www",
-		"start": "node ./bin/www",
+		"dev": "nodemon ./src/bin/www",
+		"start": "node ./src/bin/www",
 		"say-hello": "echo 'Hello World!'"
 	},
 	"author": "Sujit Mahavarkar",

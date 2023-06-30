@@ -1,17 +1,9 @@
 version: "3.8"
 services:
-  frontend:
-    build:
-      context: ./frontend
-    ports:
-      - "4000:4000"
-    depends_on:
-      - backend
-
   backend:
     restart: always
     build:
-      context: ./backend
+      context: .
     ports:
       - 3030:3030
       - 9229:9229
@@ -25,7 +17,7 @@ services:
             elif [ "$NODE_ENV" = "development" ]; then
               node --inspect=0.0.0.0:9229 ./src/bin/www;
             else
-              node ./src//bin/www;
+              node ./src/bin/www;
             fi'
     depends_on:
       - db
