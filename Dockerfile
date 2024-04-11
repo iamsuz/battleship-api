@@ -1,8 +1,10 @@
-FROM node:22-alpine
+FROM node:22-alpine as debug
+
+RUN mkdir -p /app
 
 WORKDIR /app
 
-COPY package*.json ./
+COPY package.json .
 
 ARG NODE_ENV
 
@@ -11,8 +13,10 @@ RUN if [ "$NODE_ENV" = "development" ]; \
         else npm install --only=production; \
         fi
 
-RUN npm ci
+RUN npm install -g nodemon
 
-COPY . .
+COPY . ./
 
-CMD [ "npm", "start" ]
+EXPOSE 3030
+
+CMD [ "npm", "start:dev" ]

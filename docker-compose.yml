@@ -11,11 +11,13 @@ services:
       - ./.env
     environment:
       - NODE_ENV=development
+    volumes:
+      - ./:/app
     command: >
       sh -c 'if [ "$NODE_ENV" = "local" ]; then
               nodemon --inspect=0.0.0.0:9229 ./src/bin/www;
             elif [ "$NODE_ENV" = "development" ]; then
-              node --inspect=0.0.0.0:9229 ./src/bin/www;
+              nodemon --inspect=0.0.0.0:9229 ./src/bin/www;
             else
               node ./src/bin/www;
             fi'
