@@ -5,6 +5,7 @@ const logger = require("morgan");
 let bodyParser = require("body-parser");
 const routes = require("./routes/index");
 const sessionRoutes = require("./routes/sessionRoutes");
+const userRoutes = require("./routes/userRoutes");
 
 app.get("health", function (req, res) {
 	console.log("This is a health Check");
@@ -21,9 +22,39 @@ app.use(
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
 
+app.use(function (req, res, next) {
+	res.header("Access-Control-Allow-Origin", "*");
+	res.header(
+		"Access-Control-Allow-Headers",
+		"Origin, X-Requested-With, Content-Type, Accept"
+	); // cors header
+	res.header("X-Architect", "Sujit M");
+	if (req.method == "OPTIONS") {
+		// In very simple terms, this is how you handle OPTIONS request in nodejs
+		res.header(
+			"Access-Control-Allow-Methods",
+			"GET, POST, OPTIONS, PUT, DELETE, HEAD"
+		);
+		res.header("Access-Control-Max-Age", "1728000");
+		res.header("Access-Control-Allow-Credentials", "true");
+		res.header(
+			"Access-Control-Allow-Headers",
+			"Origin,Content-Type,Accept,Authorization, X-AUTH-TOKEN, X-USER-TYPE, REQUEST-ID, X-IS-BLOB"
+		);
+		res.header("Content-Length", "0");
+		res.sendStatus(208);
+	} else {
+		next();
+		// Google analytics logging comes here
+	}
+
+	//    next();
+});
+
 //changes the route to home route
 app.use("/", routes);
 app.use("/sessions", sessionRoutes);
+app.use("/users", userRoutes);
 // const MongoClient = require('mongodb').MongoClient;
 // const uri = "mongodb+srv://dbBattleship:GreatBattle@battle-tiucm.mongodb.net/test?retryWrites=true&w=majority";
 // const client = new MongoClient(uri, { useNewUrlParser: true });
