@@ -8,7 +8,7 @@ let db = {
 	DATABASE_PORT: process.env.DATABASE_PORT || 5432,
 	DATABASE_DIALECT: process.env.DATABASE_DIALECT || "postgres",
 	NODE_ENV: process.env.NODE_ENV || "development",
-	SCHEMA: "public",
+	SCHEMA: "private",
 };
 
 let config = {
