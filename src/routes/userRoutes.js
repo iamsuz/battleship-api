@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const UserService = require("../services/UserService");
+const UserService = require("../services/userServices");
 
 router.post("/create-user", async (req, res) => {
 	const { email, username, isGuest } = req.body;
