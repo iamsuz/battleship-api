@@ -1,12 +1,12 @@
 const { v4: uuidv4 } = require("uuid");
-const User = require("../models/User");
+const db = require("../models/db");
 
 const UserService = {
 	async createUser({ email, username, isGuest = false }) {
 		try {
 			const placeholderEmail = `guest_${uuidv4()}@example.com`;
 
-			const user = await User.create({
+			const user = await db.private.users.create({
 				email: isGuest ? placeholderEmail : email,
 				username,
 				isGuest,
