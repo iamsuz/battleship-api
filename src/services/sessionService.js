@@ -43,16 +43,18 @@ class SessionService {
 
 	// Get session details
 	static async getSession(sessionCode) {
-		const session = await db.query(
-			"SELECT * FROM sessions WHERE session_code = $1",
-			[sessionCode]
-		);
+		const session = await db.private.sessions.findOne({
+			where: {
+				session_id: sessionCode,
+			},
+		});
 
-		if (!session.rows.length) {
-			throw new Error("Session not found.");
+		if (!session) {
+			return false;
+			// throw new Error("Session not found.");
 		}
 
-		return session.rows[0];
+		return session;
 	}
 }
 

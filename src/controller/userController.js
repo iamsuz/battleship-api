@@ -8,6 +8,15 @@ const createUser = async (req, res) => {
 				.status(400)
 				.json({ success: false, message: "User already exists" });
 		}
+
+		const existingUser = await createUserService.getUserByUsername(username);
+
+		if (existingUser) {
+			return res
+				.status(400)
+				.json({ success: false, message: "User already taken" });
+		}
+
 		const user = await createUserService.createUser({
 			email,
 			username,

@@ -13,7 +13,7 @@ const { auth } = require("../middleware/authMiddleware");
 router.post("/create-session", auth, createSession);
 
 // Join a session
-router.post("/join", joinSession);
+router.post("/join/:session-code", auth, joinSession);
 
 // Get session details
 router.get("/:session_code", getSession);

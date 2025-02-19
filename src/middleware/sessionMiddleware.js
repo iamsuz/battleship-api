@@ -1,7 +1,14 @@
 const validateSession = async (req, res, next) => {
 	const { session_code } = req.params;
 	try {
-		const session = await SessionService.getSession(session_code);
+		const session = req.cookies.session;
+		if (!session) {
+			return res.status(401).json({ error: "Unauthorized" });
+		}
+		const sessionData = JSON.parse(session);
+		if (sessionData.code !== session_code) {
+			return res.status(401).json({ error: "Unauthorized" });
+		}
 		if (session.status !== "active") {
 			return res.status(400).json({ error: "Session is not active." });
 		}

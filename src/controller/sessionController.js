@@ -22,6 +22,22 @@ const createSession = async (req, res) => {
 const joinSession = async (req, res) => {
 	try {
 		const { session_code, player_id } = req.body;
+
+		//Check if the session is valid
+		const session = await SessionService.getSession(session_code);
+
+		//If the session is empty, return an error
+		if (!session) {
+			return res.status(400).json({ error: "Session not found" });
+		}
+
+		//check if the user created a session and using the same session code
+		if (req.cookies.session) {
+			return res
+				.status(400)
+				.json({ error: "You can not join your own session" });
+		}
+
 		const response = await SessionService.joinSession(session_code, player_id);
 		res.status(200).json(response);
 	} catch (error) {

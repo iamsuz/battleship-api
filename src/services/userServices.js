@@ -24,6 +24,20 @@ const UserService = {
 			throw new Error("Unable to create user");
 		}
 	},
+
+	async getUserByUsername(username) {
+		const user = await db.private.users.findOne({
+			where: {
+				username,
+			},
+		});
+		console.log({ user });
+		if (!user) {
+			return false;
+		}
+
+		return user;
+	},
 };
 
 module.exports = UserService;
