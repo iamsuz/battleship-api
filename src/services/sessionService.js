@@ -1,7 +1,7 @@
 // services/sessionService.js
 
 const { v4: uuidv4 } = require("uuid");
-const db = require("../models/db"); // Assume db is your database interface
+const db = require("../models/db");
 
 class SessionService {
 	// Create a new session

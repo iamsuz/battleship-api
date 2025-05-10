@@ -3,6 +3,7 @@ const app = express();
 const path = require("path");
 const logger = require("morgan");
 let bodyParser = require("body-parser");
+const cookieParser = require("cookie-parser");
 const routes = require("./routes/index");
 const sessionRoutes = require("./routes/sessionRoutes");
 const userRoutes = require("./routes/userRoutes");
@@ -21,6 +22,7 @@ app.use(
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.use(function (req, res, next) {
 	res.header("Access-Control-Allow-Origin", "*");

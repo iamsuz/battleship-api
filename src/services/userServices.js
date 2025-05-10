@@ -2,9 +2,15 @@ const { v4: uuidv4 } = require("uuid");
 const db = require("../models/db");
 
 const UserService = {
-	async createUser({ email, username, isGuest = false }) {
+	async createUser({ email, username, isGuest = true }) {
 		try {
-			const placeholderEmail = `guest_${uuidv4()}@example.com`;
+			if (!isGuest && !email) {
+				throw new Error("Email is required for non-guest users");
+			}
+			let placeholderEmail = email;
+			if (!email) {
+				placeholderEmail = `guest_${uuidv4()}@battleship.com`;
+			}
 
 			const user = await db.private.users.create({
 				email: isGuest ? placeholderEmail : email,
