@@ -6,16 +6,22 @@ const db = require("../models/db");
 class SessionService {
 	// Create a new session
 	static async createSession(playerId) {
-		const sessionCode = Math.random()
-			.toString(36)
-			.substring(2, 8)
-			.toUpperCase(); // Generate a random 6-character code
-		const session = await db.private.sessions.create({});
-		return {
-			sessionCode,
-			status: session.rows[0].status,
-			link: `https://battleship.com/session/${sessionCode}`,
-		};
+		try {
+			const sessionCode = uuidv4();
+			console.log(playerId); // Generate a random 6-character code
+			const session = await db.private.sessions.create({
+				session_id: sessionCode,
+				player1: playerId,
+				status: "pending",
+			});
+			return {
+				session,
+				link: `https://battleship.com/session/${sessionCode}`,
+			};
+		} catch (error) {
+			console.error("Error creating session:", error);
+			throw new Error("Unable to create session");
+		}
 	}
 
 	// Join an existing session

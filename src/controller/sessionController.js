@@ -2,10 +2,18 @@ const SessionService = require("../services/sessionService");
 
 const createSession = async (req, res) => {
 	try {
-		const { player_id } = req.body;
-		console.log(req);
-		const session = await SessionService.createSession(player_id);
-		res.status(201).json(session);
+		const { id } = req.user;
+		if (req.cookies.session) {
+			return res.status(400).json({ error: "Session already exists" });
+		}
+		const session = await SessionService.createSession(id);
+		res.cookie("session", JSON.stringify(session), {
+			maxAge: 3600000,
+			httpOnly: true,
+			sameSite: "Lax",
+			secure: false,
+		});
+		res.status(201).json({ success: true, session });
 	} catch (error) {
 		res.status(500).json({ error: error.message });
 	}

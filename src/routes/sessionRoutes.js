@@ -7,9 +7,10 @@ const {
 	joinSession,
 	getSession,
 } = require("../controller/sessionController");
+const { auth } = require("../middleware/authMiddleware");
 
 // Create a session
-router.post("/create-session", createSession);
+router.post("/create-session", auth, createSession);
 
 // Join a session
 router.post("/join", joinSession);
